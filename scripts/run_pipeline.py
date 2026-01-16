@@ -10,13 +10,50 @@ Steps:
 4) Batch-generate PPT reports for all departments
 
 Usage:
-    python run_pipeline.py
+    python scripts/run_pipeline.py
 """
 
-from generate_sample_data import generate_sample_data
-from prepare_data import prepare_department_metrics
-from create_template import create_template
-from batch_generate import batch_generate
+import sys
+import os
+
+# Add project root to path so we can import from scripts/
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Import using importlib to handle numeric prefixes
+import importlib.util
+
+def import_module_from_file(filepath, module_name):
+    """Import a module from a file path"""
+    spec = importlib.util.spec_from_file_location(module_name, filepath)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+# Get script directory
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Import modules
+gen_data = import_module_from_file(
+    os.path.join(script_dir, '1_generate_sample_data.py'),
+    'generate_sample_data'
+)
+prep_data = import_module_from_file(
+    os.path.join(script_dir, '2_prepare_data.py'),
+    'prepare_data'
+)
+create_tpl = import_module_from_file(
+    os.path.join(script_dir, '3_create_template.py'),
+    'create_template'
+)
+batch_gen = import_module_from_file(
+    os.path.join(script_dir, '4_batch_generate.py'),
+    'batch_generate'
+)
+
+generate_sample_data = gen_data.generate_sample_data
+prepare_department_metrics = prep_data.prepare_department_metrics
+create_template = create_tpl.create_template
+batch_generate = batch_gen.batch_generate
 
 
 def main():

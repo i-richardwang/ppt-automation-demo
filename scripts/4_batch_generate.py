@@ -8,12 +8,16 @@ from a single template in seconds.
 """
 
 import os
+import sys
 
 import pandas as pd
 from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 
-from mapping import load_mapping
+# Add project root to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.mapping import load_mapping
 
 # Load data→PPT mapping from markdown spec (documentation-as-code pattern)
 _MAPPING_CONFIG = load_mapping()

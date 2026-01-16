@@ -33,12 +33,15 @@ ppt-automation-demo/
 ├── README.md                 # This file
 ├── requirements.txt          # Python dependencies
 ├── LICENSE                   # MIT License
-├── generate_sample_data.py   # Generate raw, row-level survey data
-├── prepare_data.py           # Aggregate raw data → department metrics
-├── create_template.py        # Create 2-slide PPT template (overview + detail tables)
-├── batch_generate.py         # Main script: batch generate reports from processed data
-├── mapping.py                # Load data↔PPT mapping from markdown spec
-├── tools/
+├── scripts/                  # Executable scripts
+│   ├── 1_generate_sample_data.py   # Generate raw, row-level survey data
+│   ├── 2_prepare_data.py           # Aggregate raw data → department metrics
+│   ├── 3_create_template.py        # Create 3-slide PPT template
+│   ├── 4_batch_generate.py         # Main script: batch generate reports
+│   └── run_pipeline.py             # One-click: run full pipeline
+├── src/                      # Core modules
+│   └── mapping.py            # Load data↔PPT mapping from markdown spec
+├── tools/                    # Utility tools
 │   └── analyze_template.py   # Analyze PPT template structure
 ├── data/
 │   ├── raw/
@@ -69,7 +72,7 @@ uv sync
 ### 2. Generate Raw Sample Data
 
 ```bash
-python generate_sample_data.py
+python scripts/1_generate_sample_data.py
 ```
 
 Creates `data/raw/survey_responses.xlsx` with row-level data for 5 departments:
@@ -84,7 +87,7 @@ Each row is an employee-quarter observation with: age, satisfaction, engagement,
 ### 3. Aggregate Raw Data → Department Metrics
 
 ```bash
-python prepare_data.py
+python scripts/2_prepare_data.py
 ```
 
 Creates `data/processed/department_metrics.xlsx` with per-department, per-quarter metrics:
@@ -95,7 +98,7 @@ Creates `data/processed/department_metrics.xlsx` with per-department, per-quarte
 ### 4. Create Template
 
 ```bash
-python create_template.py
+python scripts/3_create_template.py
 ```
 
 Creates `data/raw/template.pptx` with three slides:
@@ -123,7 +126,7 @@ Creates `data/raw/template.pptx` with three slides:
 ### 5. Batch Generate Reports
 
 ```bash
-python batch_generate.py
+python scripts/4_batch_generate.py
 ```
 
 Generates 5 customized reports in `data/output/reports/`:
@@ -140,7 +143,7 @@ Generates 5 customized reports in `data/output/reports/`:
 To run the full pipeline (raw → processed → template → PPT) in one command:
 
 ```bash
-python run_pipeline.py
+python scripts/run_pipeline.py
 ```
 
 This runs the complete end-to-end pipeline demonstrating an engineering-grade automation workflow.
@@ -330,11 +333,11 @@ This demo pattern applies to:
 
 ### Adapt to Your Data
 
-1. **Modify Raw Data Structure**: Edit `generate_sample_data.py` (or replace `survey_responses.xlsx`) to match your real raw data schema.
-2. **Update Aggregation Logic**: Adjust `prepare_data.py` to compute the department-level metrics you need.
+1. **Modify Raw Data Structure**: Edit `scripts/1_generate_sample_data.py` (or replace `survey_responses.xlsx`) to match your real raw data schema.
+2. **Update Aggregation Logic**: Adjust `scripts/2_prepare_data.py` to compute the department-level metrics you need.
 3. **Update Mapping Spec**: Edit `docs/data_mapping.md` to map new metrics to PPT shapes (the runtime config is parsed from this table).
-4. **Update Extraction Logic**: If you change the processed file format, update `extract_department_data()` in `batch_generate.py`.
-5. **Change Chart Types**: Modify `create_template.py` to use different chart types or layouts.
+4. **Update Extraction Logic**: If you change the processed file format, update `extract_department_data()` in `scripts/4_batch_generate.py`.
+5. **Change Chart Types**: Modify `scripts/3_create_template.py` to use different chart types or layouts.
 6. **Add More Charts**: Extend the template and mapping spec to include additional visualizations.
 
 ### Adapt to Your Template
