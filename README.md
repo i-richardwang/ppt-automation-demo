@@ -1,5 +1,11 @@
 # PPT Automation Demo
 
+> **Status: Retired — superseded by [ppt-craft](https://github.com/i-richardwang/ppt-craft).**
+>
+> This project was built before the Claude Code *skills* mechanism existed, so the only way to package "how to automate PPT" was a standalone demo repo plus a long methodology README. That methodology — including all the format-preservation gotchas documented below (`chart.replace_data()` re-applying fonts, `number_format_is_linked = False`, using `paragraph.runs[0].text` instead of `shape.text`) — now lives in **ppt-craft**, a unified skill that covers this demo's batch-report scenario *and* from-scratch PPT creation, and is reusable across projects on demand.
+>
+> This repo is kept as a **worked example / reference implementation**: a complete, runnable end-to-end pipeline with sample data. For real work, use ppt-craft.
+
 A demonstration project showing how to automate PowerPoint report generation using python-pptx.
 
 **Key Scenario**: Batch generate customized reports for multiple departments from a single template - transforming hours of manual work into seconds of automated processing.
@@ -379,7 +385,7 @@ One template → Generate reports for different time periods (monthly, quarterly
 ## Learn More
 
 - [docs/tutorial.md](docs/tutorial.md) - Detailed step-by-step guide
-- [.claude/skills/ppt-automation/SKILL.md](../.claude/skills/ppt-automation/SKILL.md) - Complete methodology
+- [ppt-craft](https://github.com/i-richardwang/ppt-craft) - The successor skill; complete methodology for both editing existing PPTs and creating from scratch
 - [python-pptx documentation](https://python-pptx.readthedocs.io/) - Library reference
 
 ## Troubleshooting
